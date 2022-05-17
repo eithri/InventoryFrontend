@@ -1,0 +1,98 @@
+<p-tabView>
+  <p-toast></p-toast>
+  <p-confirmDialog header="Eliminar Producto" icon="pi pi-trash"></p-confirmDialog>
+  <p-tabPanel header="Informe">
+    <h1>Inventario de Productos</h1>
+    <div style="margin: 5px">
+      <p-menubar [model]="items"></p-menubar>
+    </div>
+    <p-table 
+      [value]="productos"
+      [columns]="cols"
+      [responsive]="true"
+      [paginator]="true"
+      selectionMode="single"
+      [(selection)]="selectedProducto"
+      dataKey="id"
+      [rows]="10"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{ col.header }} 
+            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product let-columns="columns">
+        <tr [pSelectableRow] = "product">
+          <td *ngFor="let col of columns">
+            {{ product[col.field] }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-tabPanel>
+
+  <p-dialog
+    header="Informacion del Producto"
+    [responsive]="true"
+    [style]="{ width: '400px' }"
+    [(visible)]="displaySaveDialog"
+    [modal]="true"
+  >
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <label for="Nombre">Nombre</label>
+      </div>
+      <div class="ui-g-8">
+        <input
+          type="text"
+          pInputText
+          id="nombre"
+          [(ngModel)]="producto.name"
+          required
+        />
+      </div>
+    </div>
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <label for="precio">Precio</label>
+      </div>
+      <div class="ui-g-8">
+        <input
+          type="number"
+          pInputText
+          id="precio"
+          [(ngModel)]="producto.price"
+          required
+        />
+      </div>
+    </div>
+    
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <label for="stock">Stock Disponible</label>
+      </div>
+      <div class="ui-g-8">
+        <input
+          type="number"
+          pInputText
+          id="stock"
+          [(ngModel)]="producto.stock"
+          required
+        />
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix"></div>
+        <button
+        type="button"
+          pButton
+          icon="pi pi-check"
+          (click)="save()"
+          label="Guardar"
+        ></button>
+    </p-footer>
+  </p-dialog>
+</p-tabView>
